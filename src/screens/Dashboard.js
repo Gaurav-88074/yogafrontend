@@ -3,24 +3,40 @@ import classes from './Dashboard.module.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { batchInfoActions } from '../redux/BatchSlice';
 import { FetchBatchInfo } from '../API/FetchBatchInfo';
 import { FetchCurrentBatch } from '../API/FetchCurrentBatch';
 import BatchCard from '../components/BatchCard';
 import {RotateToken} from '../API/RotateToken';
 const Dashboard = () => {
-    const batchInfo = useSelector(state => state.batchInfoReducer.allBatchInfo);
-    const currentBatchInfo = useSelector(state => state.batchInfoReducer.currentBatchInfo);
-    
-    RotateToken();
-    FetchBatchInfo();
-    FetchCurrentBatch();
+    const dispatch = useDispatch();
 
-    const [batchMessage1, setBatchMessage1] = useState(true);
+    const batchInfo = useSelector(state => state.batchInfoReducer.allBatchInfo);
+
+    const isMessageVisible = useSelector(state => state.batchInfoReducer.isMessageVisible);
+    const batchesShow = useSelector(state => state.batchInfoReducer.batchesShow);
+
+    const enrollDate = useSelector(state => state.batchInfoReducer.enrollDate);
+    const batchTiming = useSelector(state => state.batchInfoReducer.batchTiming);
+
+    const expiryDate  =new Date();
+
+    if(enrollDate!=null){
+        expiryDate.setDate(30);
+    }
+    RotateToken();
+
+    FetchCurrentBatch();
+    FetchBatchInfo();
+
+    const fetchingBatches = useSelector(state => state.batchInfoReducer.fetchingBatches);
 
     const navigate = useNavigate();
     const logoutHandler = () => {
         localStorage.removeItem("refresh");
         navigate("/");
+        window.location.reload();
     }
     return (
         <>
@@ -39,12 +55,14 @@ const Dashboard = () => {
                 </nav>
             </header>
             {
-                (batchMessage1==true && currentBatchInfo==null)
+                (isMessageVisible)
                 &&
                 <section className={classes.batchInfo1}>
                     Currently your are not enrolled in any batch
                     <button className={classes.hphAuthSection}
-                        onClick={() => { setBatchMessage1(false) }}
+                        onClick={() => { 
+                            dispatch(batchInfoActions.setMessageVisible(false)); 
+                        }}
                     >Okay
                     </button>
                 </section>
@@ -52,21 +70,24 @@ const Dashboard = () => {
             <main className={classes.main}>
 
                 {
-                    (batchInfo == null)
-                    &&
-                    <div className={classes.skeleton}>
-
-                    </div>
+                    (fetchingBatches===true )
+                        &&
+                    <>
+                        <div className={classes.skeleton}></div>
+                        <div className={classes.skeleton}></div>
+                        <div className={classes.skeleton}></div>
+                        <div className={classes.skeleton}></div>
+                    </>
                 }
                 {
-                    (batchInfo !== null && currentBatchInfo==null)
+                    (batchInfo !== null && enrollDate==null && batchesShow==true)
                     &&
                     batchInfo.map(obj => <BatchCard {...obj} key={obj._id}/>)
                 }
                 <main className={classes.main}>
 
                     {
-                        currentBatchInfo !== null
+                        enrollDate !== null
                         &&
                         <div className={classes.currentBatch}>
                             <div className={classes.batchLeft}>
@@ -78,7 +99,7 @@ const Dashboard = () => {
                                         Batch Timing
                                     </span>
                                     <span >
-                                        AM - 8AM
+                                        {batchTiming}
                                     </span>
                                 </section>
                                 <section className={classes.subHeadings}>
@@ -86,7 +107,7 @@ const Dashboard = () => {
                                         Enroll Date
                                     </span>
                                     <span >
-                                        02-12-2022
+                                        {enrollDate}
                                     </span>
                                 </section>
                                 <section className={classes.subHeadings}>
@@ -94,7 +115,7 @@ const Dashboard = () => {
                                         Expiry Date
                                     </span>
                                     <span>
-                                        30-12-2022
+                                        {expiryDate.toLocaleDateString()}
                                     </span>
                                 </section>
                             </div>

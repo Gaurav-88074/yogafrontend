@@ -62,7 +62,8 @@ const Signup = () => {
           headers: {'Content-Type': 'application/json'},
         };
         
-        let response = await fetch('http://127.0.0.1:8000/signup', options)
+        // let response = await fetch('http://127.0.0.1:8000/signup', options)
+        let response = await fetch('yogabackend-production-7788.up.railway.app/signup', options)
         if(response.status==200){
           let data  = await response.json();
           navigate("/login");

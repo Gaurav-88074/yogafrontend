@@ -2,8 +2,12 @@ import React from 'react'
 import classes from './Login.module.css'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { authActions } from '../redux/AuthSlice';
+import jwt_decode from 'jwt-decode';
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const rytSignHandler = (event) => {
     navigate("/Signup");
   }
@@ -19,12 +23,18 @@ const Login = () => {
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
     }
-    let response = await fetch('http://127.0.0.1:8000/login', options);
+    // let response = await fetch('http://127.0.0.1:8000/login', options);
+    let response = await fetch('yogabackend-production-7788.up.railway.app/login', options);
     if (response.status == 200) {
       let data = await response.json();
       // console.log(data.refresh);
       localStorage.setItem("refresh",data.refresh);      
-      
+
+      const decoded = jwt_decode(data.access);
+
+      dispatch(authActions.setEmail(decoded.user));
+      dispatch(authActions.setUsername(decoded.user));
+
       navigate("/dashboard")
     }
     else {
