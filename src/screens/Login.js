@@ -25,8 +25,6 @@ const Login = () => {
       // console.log(data.refresh);
       localStorage.setItem("refresh",data.refresh);      
       
-      
-
       navigate("/dashboard")
     }
     else {
