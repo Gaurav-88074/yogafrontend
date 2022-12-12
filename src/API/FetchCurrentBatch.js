@@ -21,7 +21,7 @@ const FetchCurrentBatch = async () => {
         })
       };
 
-      const response = await fetch('http://127.0.0.1:8000/currentbatchinfo', options)
+      const response = await fetch('https://yogabackend-production-7788.up.railway.app/currentbatchinfo', options)
       if (response.status == 200) {
         let data = await response.json();
         // console.log(data);

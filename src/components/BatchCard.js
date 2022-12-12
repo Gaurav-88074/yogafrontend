@@ -25,7 +25,7 @@ const BatchCard = (obj) => {
             body: JSON.stringify(body)
         };
         // fetch('http://127.0.0.1:8000/membership', options)
-        fetch('yogabackend-production-7788.up.railway.app/membership', options)
+        fetch('https://yogabackend-production-7788.up.railway.app/membership', options)
             .then(response => response.json())
             .then((response) =>{
                 console.log(response)

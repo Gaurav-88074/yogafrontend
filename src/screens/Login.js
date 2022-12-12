@@ -24,7 +24,7 @@ const Login = () => {
       headers: { 'Content-Type': 'application/json' },
     }
     // let response = await fetch('http://127.0.0.1:8000/login', options);
-    let response = await fetch('yogabackend-production-7788.up.railway.app/login', options);
+    let response = await fetch('https://yogabackend-production-7788.up.railway.app/login', options);
     if (response.status == 200) {
       let data = await response.json();
       // console.log(data.refresh);

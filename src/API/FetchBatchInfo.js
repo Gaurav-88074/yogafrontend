@@ -12,7 +12,7 @@ const FetchBatchInfo = () => {
         };
         dispatch(batchInfoActions.setFetchingBatches(true));
         // fetch('http://127.0.0.1:8000/batch', options)
-        fetch('yogabackend-production-7788.up.railway.app/batch', options)
+        fetch('https://yogabackend-production-7788.up.railway.app/batch', options)
             .then((resp) => {
                 return resp.json();
             })

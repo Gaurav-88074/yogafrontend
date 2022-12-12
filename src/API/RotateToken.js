@@ -29,7 +29,7 @@ const RotateToken = () => {
         };
 
         // const resp = await fetch('http://127.0.0.1:8000/token/refresh/', options);
-        const resp = await fetch('yogabackend-production-7788.up.railway.app/token/refresh/', options);
+        const resp = await fetch('https://yogabackend-production-7788.up.railway.app/token/refresh/', options);
         if (resp.status == 200) {
             const response = await resp.json();
             localStorage.setItem("refresh", response.refresh);
