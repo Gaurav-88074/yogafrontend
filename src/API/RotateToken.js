@@ -20,7 +20,7 @@ const RotateToken = () => {
     async function updateToken() {
         const options = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
             body: JSON.stringify(
                 {
                     refresh: localStorage.getItem("refresh")

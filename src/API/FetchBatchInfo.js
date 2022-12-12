@@ -8,7 +8,9 @@ const FetchBatchInfo = () => {
     useEffect(() => {
         const options = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
         };
         dispatch(batchInfoActions.setFetchingBatches(true));
         // fetch('http://127.0.0.1:8000/batch', options)

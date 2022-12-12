@@ -14,7 +14,7 @@ const FetchCurrentBatch = async () => {
     const ff = async () => {
       const options = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' ,'Accept': 'application/json'},
         body: JSON.stringify({
           email: email,
           month: new Date().getMonth()

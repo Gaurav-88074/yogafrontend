@@ -21,7 +21,9 @@ const BatchCard = (obj) => {
         // console.log(body);
         const options = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+            'Accept': 'application/json' },
             body: JSON.stringify(body)
         };
         // fetch('http://127.0.0.1:8000/membership', options)
